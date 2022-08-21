@@ -26,6 +26,7 @@ const ViewParticipantEvent = ({navigation}) => {
   const [isVisible, setVisible] = useState(false);
   const [eventList, setEventList] = useState();
   const [videoLink, setVideoLink] = useState();
+  const [nameClick, setNameClick] = useState();
   const [thead, setThead] = useState({
     tableHead: [
       <Text
@@ -72,7 +73,8 @@ const ViewParticipantEvent = ({navigation}) => {
         }}>
         <View
           style={{
-            flex: 1,
+            padding: 10,
+            // flex: 1,
             // backgroundColor: 'red',
             // borderWidth: 1,
             // borderColor: 'red',
@@ -95,9 +97,10 @@ const ViewParticipantEvent = ({navigation}) => {
               uri: videoLink,
             }}
           /> */}
+          <Text style={styles.headerTitleSecond}>{nameClick}</Text>
           <YoutubePlayer height={300} play={true} videoId={videoLink} />
           <TouchableOpacity onPress={() => setVisible(false)}>
-            <Text style={{fontSize: 20, padding: 10}}>Hide Modal</Text>
+            <Text style={{fontSize: 20}}>Hide Modal</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -201,6 +204,7 @@ const ViewParticipantEvent = ({navigation}) => {
                               onPress={() => {
                                 console.log(rowData?.link_video);
                                 setVideoLink(rowData?.link_video);
+                                setNameClick(rowData?.participant?.name);
                                 setVisible(true);
                               }}>
                               <Text
