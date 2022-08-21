@@ -37,7 +37,7 @@ export const drawerItemsMainAdmin = [
     key: 'Event',
     title: 'Event',
     routes: [
-      {nav: 'MainDrawer', routeName: 'Event List', title: 'Event List'},
+      {nav: 'MainDrawer', routeName: 'EventList', title: 'Event List'},
       {nav: 'MainDrawer', routeName: 'ManageEvent', title: 'Manage Event'},
       {
         nav: 'MainDrawer',

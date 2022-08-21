@@ -10,6 +10,7 @@ import {
 import {Cell, Row, Table, TableWrapper} from 'react-native-table-component';
 import {IconClose, IconEdit} from '../../assets/Icon';
 import {Gap} from '../../components/atom';
+import {user_read} from '../../config/API/login_api';
 import {getData} from '../../utils';
 const ManageAdmin = () => {
   const [thead, setThead] = useState({
@@ -42,11 +43,12 @@ const ManageAdmin = () => {
         Organization
       </Text>,
       <Text
-        style={{paddingLeft: 5, paddingRight: 5, width: 120, color: 'white'}}>
+        style={{paddingLeft: 5, paddingRight: 5, width: 200, color: 'white'}}>
         Action
       </Text>,
     ],
   });
+  const [userList, setUserList] = useState();
   const [username, setUsername] = useState();
   const [user, setUser] = useState();
   const [tokenx, setTokenx] = useState();
@@ -61,7 +63,24 @@ const ManageAdmin = () => {
     getData('token_tel').then(res => {
       setTokenx(res.value);
     });
-  }, [username, user]);
+  }, []);
+
+  const getUserList = async tox => {
+    let datas = await user_read(tox);
+    // console.log(datas.data);
+    setUserList(datas.data.query);
+    // console.log(datas.data.query);
+  };
+
+  useEffect(() => {
+    if (tokenx) {
+      getUserList(tokenx);
+    }
+  }, [tokenx]);
+
+  useEffect(() => {
+    console.log(userList?.length);
+  }, [userList]);
 
   return (
     <View style={styles.container}>
@@ -75,8 +94,8 @@ const ManageAdmin = () => {
               textStyle={styles.textWhite}
             />
 
-            {/* {Object.keys(prokerListMany).length > 0 ? (
-              prokerListMany?.query?.map((rowData, index) => {
+            {userList?.length > 0 ? (
+              userList?.map((rowData, index) => {
                 return (
                   <TableWrapper key={index} style={styles.row}>
                     <Cell
@@ -95,7 +114,7 @@ const ManageAdmin = () => {
                             color: 'black',
                             paddingVertical: 15,
                           }}>
-                          {page * 10 - 10 + index + 1}
+                          {index + 1}
                         </Text>
                       }
                       textStyle={styles.text}
@@ -114,7 +133,7 @@ const ManageAdmin = () => {
                             width: 120,
                             color: 'black',
                           }}>
-                          {rowData.nama_program}
+                          {rowData.username}
                         </Text>
                       }
                       textStyle={styles.text}
@@ -131,48 +150,10 @@ const ManageAdmin = () => {
                             paddingLeft: 5,
                             paddingRight: 5,
                             paddingVertical: 5,
-                            width: 350,
-                            color: 'black',
-                          }}>
-                          {rowData.plan}
-                        </Text>
-                      }
-                      textStyle={styles.text}
-                    />
-                    <Cell
-                      style={{
-                        borderWidth: 1,
-                        borderColor: '#000',
-                        borderStyle: 'solid',
-                      }}
-                      data={
-                        <Text
-                          style={{
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            width: 100,
-                            color: 'black',
-                          }}>
-                          {rowData.target}
-                        </Text>
-                      }
-                      textStyle={styles.text}
-                    />
-                    <Cell
-                      style={{
-                        borderWidth: 1,
-                        borderColor: '#000',
-                        borderStyle: 'solid',
-                      }}
-                      data={
-                        <Text
-                          style={{
-                            paddingLeft: 5,
-                            paddingRight: 5,
                             width: 120,
                             color: 'black',
                           }}>
-                          {rowData.keterangan}
+                          {rowData.name}
                         </Text>
                       }
                       textStyle={styles.text}
@@ -188,14 +169,34 @@ const ManageAdmin = () => {
                           style={{
                             paddingLeft: 5,
                             paddingRight: 5,
-                            width: 120,
+                            width: 150,
                             color: 'black',
                           }}>
-                          {rowData.bulan}
+                          {rowData.email}
                         </Text>
                       }
                       textStyle={styles.text}
                     />
+                    <Cell
+                      style={{
+                        borderWidth: 1,
+                        borderColor: '#000',
+                        borderStyle: 'solid',
+                      }}
+                      data={
+                        <Text
+                          style={{
+                            paddingLeft: 5,
+                            paddingRight: 5,
+                            width: 250,
+                            color: 'black',
+                          }}>
+                          {rowData.organization}
+                        </Text>
+                      }
+                      textStyle={styles.text}
+                    />
+
                     <Cell
                       style={{
                         borderWidth: 1,
@@ -206,7 +207,7 @@ const ManageAdmin = () => {
                         <View
                           style={{
                             flexDirection: 'row',
-                            width: 120,
+                            width: 200,
                             flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -215,21 +216,35 @@ const ManageAdmin = () => {
                           }}>
                           <TouchableOpacity
                             onPress={() => {
-                              setStaffClick(rowData);
-                              setModalVisible(true);
+                              // setStaffClick(rowData);
+                              // setModalVisible(true);
                             }}>
-                            <IconEdit />
+                            <Text
+                              style={{
+                                backgroundColor: 'blue',
+                                color: 'white',
+                                padding: 8,
+                              }}>
+                              Edit
+                            </Text>
                           </TouchableOpacity>
                           <Gap width={10} />
                           <TouchableOpacity
-                            onPress={() =>
-                              closeConfirm({
-                                id: rowData.id,
-                                status: 'request',
-                                keterangan: 'request',
-                              })
-                            }>
-                            <IconClose />
+                            onPress={() => {
+                              // closeConfirm({
+                              //   id: rowData.id,
+                              //   status: 'request',
+                              //   keterangan: 'request',
+                              // });
+                            }}>
+                            <Text
+                              style={{
+                                backgroundColor: 'red',
+                                color: 'white',
+                                padding: 8,
+                              }}>
+                              Ubah Password
+                            </Text>
                           </TouchableOpacity>
                         </View>
                       }
@@ -249,7 +264,7 @@ const ManageAdmin = () => {
                 <Gap width={10} />
                 <Text>Loading...</Text>
               </View>
-            )} */}
+            )}
           </Table>
         </View>
       </ScrollView>

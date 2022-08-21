@@ -18,16 +18,15 @@ export const PostLogin = async data => {
   }
 };
 
-export const user_read = async ({token}) => {
+export const user_read = async token => {
   try {
-    const result = await api('/user_read', {
-      method: 'GET',
+    // console.log('oy');
+    const result = await Axios.get(`${API_HOST.url}/user_read`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
-    // console.log(result.data);
     return result;
   } catch (error) {
     return error;

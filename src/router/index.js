@@ -22,6 +22,9 @@ import RegisUser from '../pages/RegisUser';
 import RegisParticipant from '../pages/RegisParticipant';
 import ManageAdmin from '../pages/ManageAdmin';
 import ManageEvent from '../pages/ManageEvent';
+import DetailEvent from '../pages/DetailEvent';
+import ViewParticipantEvent from '../pages/ViewParticipantEvent';
+import EventList from '../pages/EventList';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -90,6 +93,21 @@ function MainDrawerNavigation() {
       <Drawer.Screen
         name="ManageEvent"
         component={() => <ManageEvent />}
+        options={{}}
+      />
+      <Drawer.Screen
+        name="EventList"
+        component={() => <EventList />}
+        options={{}}
+      />
+      <Drawer.Screen
+        name="DetailEvent"
+        component={() => <DetailEvent />}
+        options={{}}
+      />
+      <Drawer.Screen
+        name="ViewParticipantEvent"
+        component={() => <ViewParticipantEvent />}
         options={{}}
       />
       <Drawer.Screen

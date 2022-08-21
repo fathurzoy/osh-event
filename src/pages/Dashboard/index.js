@@ -26,7 +26,7 @@ const Dashboard = () => {
   const getEventList = async () => {
     setLoadingData(true);
     let datas = await event_read();
-    console.log(datas?.query);
+    // console.log(datas?.query);
     setEvent(datas?.query);
     setLoadingData(false);
   };
@@ -46,7 +46,7 @@ const Dashboard = () => {
       <View style={styles.container}>
         <ScrollView style={{flex: 1}}>
           {/* <Header title={username} onPress={() => drawer.current.openDrawer()} /> */}
-          <Text style={styles.headerTitle}>Dashboard</Text>
+          <Text style={styles.headerTitle}>Home</Text>
           <ImagesSwiperApp />
           <Gap height={10} />
           {loadingData && <ActivityIndicator size="large" color="#1abc9c" />}
@@ -60,7 +60,12 @@ const Dashboard = () => {
                   right={props => (
                     <TouchableOpacity
                       onPress={() => {
-                        e.id;
+                        navigation.navigate('MainDrawer', {
+                          screen: 'DetailEvent',
+                          params: {
+                            e,
+                          },
+                        });
                       }}>
                       <AngleRight />
                     </TouchableOpacity>

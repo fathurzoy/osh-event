@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {IconEdit} from '../../assets';
-import {TextInput} from '../../components/atom';
+import {Button, Gap, TextInput} from '../../components/atom';
 import Copyright from '../../components/molecules/Copyright';
 import {admin_update} from '../../config/API/login_api';
 import {getData, showMessage} from '../../utils';
@@ -86,20 +86,26 @@ const Profile = () => {
             <Text>:</Text>
             <Text>{user?.gender}</Text>
           </View>
-          <TouchableOpacity
+          <Gap height={20} />
+          <Button
+            text="Edit Profile"
+            color="blue"
+            textColor="white"
             onPress={() => {
               setUserClickDataId(user);
               setModalVisible2(!modalVisible2);
-            }}>
-            <Text>Edit Profile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            }}
+          />
+          <Gap height={10} />
+          <Button
+            text="Ubah Password"
+            color="red"
+            textColor="white"
             onPress={() => {
               setUserClickDataId(user);
               setModalVisible(!modalVisible);
-            }}>
-            <Text>Ubah Password</Text>
-          </TouchableOpacity>
+            }}
+          />
         </ScrollView>
       </View>
       <Copyright />
@@ -233,9 +239,10 @@ const ModalEdit = ({modal, userClickData, tokenx}) => {
   };
 
   useEffect(() => {
-    setDataForm();
-    // console.log(userClickDataId);
-  }, []);
+    if (userClickDataId) {
+      setDataForm();
+    }
+  }, [modalVisible2]);
 
   const kelolaUser = () => {
     const data = dispatch(
@@ -265,58 +272,70 @@ const ModalEdit = ({modal, userClickData, tokenx}) => {
         setModalVisible2(!modalVisible2);
       }}>
       <ScrollView>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={{marginBottom: 30, fontSize: 20, fontWeight: 'bold'}}>
-              UBAH PASSWORD
-            </Text>
-            <View style={{width: 250, marginBottom: 10}}>
-              <TextInput
-                label="Username"
-                placeholder="Username"
-                editable={false}
-                selectTextOnFocus={false}
-                value={form.username}
-                onChangeText={value => setForm({...form, username: value})}
-              />
-            </View>
-            <View style={{width: 250, marginBottom: 10}}>
-              <TextInput
-                label="Phone"
-                placeholder="Phone"
-                editable={true}
-                selectTextOnFocus={false}
-                value={form.phone}
-                onChangeText={value => setForm({...form, phone: value})}
-              />
-            </View>
-            <View style={{width: 250, marginBottom: 10}}>
-              <TextInput
-                label="Email"
-                placeholder="Email"
-                editable={true}
-                selectTextOnFocus={false}
-                value={form.email}
-                onChangeText={value => setForm({...form, email: value})}
-              />
-            </View>
-            <View style={{width: 250, marginBottom: 10}}>
-              <TextInput
-                label="Password"
-                placeholder="Masukan Password"
-                value={form.password}
-                onChangeText={value => setForm({...form, password: value})}
-              />
-            </View>
-            <View style={{width: 250, marginBottom: 10, marginTop: 10}}>
-              <TouchableOpacity
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => kelolaUser()}>
-                <Text style={styles.textStyle}>Update</Text>
-              </TouchableOpacity>
+        {form.id ? (
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text
+                style={{marginBottom: 30, fontSize: 20, fontWeight: 'bold'}}>
+                UBAH PROFIL
+              </Text>
+              <View style={{width: 250, marginBottom: 10}}>
+                <TextInput
+                  label="Username"
+                  placeholder="Username"
+                  editable={false}
+                  selectTextOnFocus={false}
+                  value={form.username}
+                  onChangeText={value => setForm({...form, username: value})}
+                />
+              </View>
+              <View style={{width: 250, marginBottom: 10}}>
+                <TextInput
+                  label="Phone"
+                  placeholder="Phone"
+                  editable={true}
+                  selectTextOnFocus={false}
+                  value={form.phone}
+                  onChangeText={value => setForm({...form, phone: value})}
+                />
+              </View>
+              <View style={{width: 250, marginBottom: 10}}>
+                <TextInput
+                  label="Email"
+                  placeholder="Email"
+                  editable={true}
+                  selectTextOnFocus={false}
+                  value={form.email}
+                  onChangeText={value => setForm({...form, email: value})}
+                />
+              </View>
+              <View style={{width: 250, marginBottom: 10}}>
+                <TextInput
+                  label="Password"
+                  placeholder="Masukan Password"
+                  value={form.password}
+                  onChangeText={value => setForm({...form, password: value})}
+                />
+              </View>
+              <View style={{width: 250, marginBottom: 10, marginTop: 10}}>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => kelolaUser()}>
+                  <Text style={styles.textStyle}>Update</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        ) : (
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text
+                style={{marginBottom: 30, fontSize: 20, fontWeight: 'bold'}}>
+                UBAH PROFIL
+              </Text>
+            </View>
+          </View>
+        )}
       </ScrollView>
     </Modal>
   );
